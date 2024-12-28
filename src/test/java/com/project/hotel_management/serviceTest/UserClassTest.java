@@ -4,7 +4,6 @@ import com.project.hotel_management.exception.ResourceConflictException;
 import com.project.hotel_management.exception.ResourceNotFoundException;
 import com.project.hotel_management.model.User;
 import com.project.hotel_management.repository.UserRepository;
-import com.project.hotel_management.service.UserService;
 import com.project.hotel_management.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -85,9 +84,7 @@ public class UserClassTest {
 
         when(userRepository.findByUserName(userName)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            userServiceImpl.updateUser(userName, updatedUserDetails);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> userServiceImpl.updateUser(userName, updatedUserDetails));
 
         verify(userRepository, times(1)).findByUserName(userName);
         verify(userRepository, times(0)).save(any(User.class));
