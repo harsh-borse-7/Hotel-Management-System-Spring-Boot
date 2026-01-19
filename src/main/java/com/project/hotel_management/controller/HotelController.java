@@ -1,77 +1,49 @@
 package com.project.hotel_management.controller;
 
-import com.project.hotel_management.dto.HotelResponse;
-import com.project.hotel_management.exception.ResourceNotFoundException;
 import com.project.hotel_management.model.Hotel;
 import com.project.hotel_management.service.HotelService;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/hotel-management/hotels")
+@RequestMapping("/api/v1/hotels")
+@RequiredArgsConstructor
 public class HotelController {
 
-    private final HotelService hotelService;
+  private final HotelService hotelService;
 
-    @Autowired
-    public HotelController(HotelService hotelService) {
-        this.hotelService = hotelService;
-    }
+  @PostMapping
+  public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.addHotel(hotel));
+  }
 
-    @PostMapping
-    public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel){
-        Hotel addHotel = hotelService.addHotel(hotel);
-        return new ResponseEntity<>(addHotel, HttpStatus.CREATED);
-    }
+  @GetMapping
+  public ResponseEntity<List<Hotel>> getAllHotels() {
+    return ResponseEntity.ok(hotelService.getHotels());
+  }
 
-    @GetMapping
-    public ResponseEntity<List<HotelResponse>> getAllHotels() {
-        List<HotelResponse> hotels = hotelService.getHotels();
-        return new ResponseEntity<>(hotels, HttpStatus.OK);
-    }
+  @GetMapping("/{hotelId}")
+  public ResponseEntity<Hotel> findByID(@PathVariable Long hotelId) {
+    return ResponseEntity.ok(hotelService.findByHotelID(hotelId));
+  }
 
-    @GetMapping("/id/{hotelID}")
-    public ResponseEntity<HotelResponse> findByID(@PathVariable long hotelID){
-        try {
-            HotelResponse hotel = hotelService.findByHotelID(hotelID);
-            return new ResponseEntity<>(hotel, HttpStatus.OK);
-        } catch (ResourceNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+  @GetMapping("/by-name")
+  public ResponseEntity<Hotel> findByHotelName(@RequestParam String name) {
+    return ResponseEntity.ok(hotelService.findByHotelName(name));
+  }
 
-    @GetMapping("/hotelname/{hotelName}")
-    public ResponseEntity<HotelResponse> findByHotelName(@PathVariable String hotelName){
-        try {
-            HotelResponse hotel = hotelService.findByHotelName(hotelName);
-           return new ResponseEntity<>(hotel,HttpStatus.OK);
-        }catch (ResourceNotFoundException ex){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+  @PutMapping("/{hotelId}")
+  public ResponseEntity<Hotel> updateHotel(
+      @PathVariable Long hotelId, @RequestBody Hotel hotelDetails) {
+    return ResponseEntity.ok(hotelService.updateHotel(hotelId, hotelDetails));
+  }
 
-    @PutMapping("/{hotelName}")
-    public ResponseEntity<Hotel> updateUser(@PathVariable String hotelName, @RequestBody Hotel hotelDetails) {
-        try {
-            Hotel updatedHotel = hotelService.updateHotel(hotelName, hotelDetails);
-            return new ResponseEntity<>(updatedHotel, HttpStatus.OK);
-        } catch (ResourceNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @DeleteMapping("/{hotelName}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String hotelName) {
-        try {
-            hotelService.deleteHotel(hotelName);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (ResourceNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
+  @DeleteMapping("/{hotel_id}")
+  public ResponseEntity<Void> deleteHotel(@PathVariable Long hotel_id) {
+    hotelService.deleteHotel(hotel_id);
+    return ResponseEntity.noContent().build();
+  }
 }

@@ -1,0 +1,89 @@
+package com.project.hotel_management.service.impl;
+
+import com.project.hotel_management.exception.ResourceNotFoundException;
+import com.project.hotel_management.model.FoodItem;
+import com.project.hotel_management.model.Hotel;
+import com.project.hotel_management.repository.HotelRepository;
+import com.project.hotel_management.repository.ItemRepository;
+import com.project.hotel_management.service.ItemService;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class ItemServiceImpl implements ItemService {
+
+  private final ItemRepository itemRepository;
+  private final HotelRepository hotelRepository;
+
+  @Override
+  public FoodItem addItem(Long hotelId, FoodItem foodItem) {
+    Hotel hotel =
+        hotelRepository
+            .findById(hotelId)
+            .orElseThrow(() -> new ResourceNotFoundException("Hotel not found with id " + hotelId));
+    hotel.addFoodItem(foodItem);
+    hotelRepository.save(hotel);
+    return foodItem;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<FoodItem> getAllItems(@PathVariable Long hotelId) {
+    return itemRepository.findByHotel_HotelId(hotelId);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public FoodItem findByItemID(Long hotelId, Long itemID) {
+    return itemRepository
+        .findByItemIdAndHotel_HotelId(hotelId, itemID)
+        .orElseThrow(
+            () ->
+                new ResourceNotFoundException(
+                    "Item with id " + itemID + " not found for hotel " + hotelId));
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public FoodItem findByItemName(Long hotelId, String itemName) {
+    return itemRepository
+        .findByItemNameAndHotel_HotelId(itemName, hotelId)
+        .orElseThrow(
+            () ->
+                new ResourceNotFoundException(
+                    "Item '" + itemName + "' not found for hotel " + hotelId));
+  }
+
+  @Override
+  public FoodItem updateItem(Long hotelId, Long itemId, FoodItem foodItem) {
+    FoodItem updateItem =
+        itemRepository
+            .findByItemIdAndHotel_HotelId(itemId, hotelId)
+            .orElseThrow(() -> new ResourceNotFoundException("Item Id " + itemId + " not found"));
+    if (foodItem.getItemName() != null && !foodItem.getItemName().isBlank())
+      updateItem.setItemName(foodItem.getItemName());
+    if (foodItem.getPrice() != null) updateItem.setPrice(foodItem.getPrice());
+    if (foodItem.getDescription() != null && !foodItem.getDescription().isBlank())
+      updateItem.setDescription(foodItem.getDescription());
+
+    return updateItem;
+  }
+
+  @Override
+  public void deleteItem(Long hotelId, Long itemId) {
+    FoodItem item =
+        itemRepository
+            .findByItemIdAndHotel_HotelId(itemId, hotelId)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "Item with id " + itemId + " not found for hotel " + hotelId));
+
+    itemRepository.delete(item);
+  }
+}

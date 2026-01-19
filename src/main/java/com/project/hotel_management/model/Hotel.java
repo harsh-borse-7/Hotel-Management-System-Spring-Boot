@@ -1,78 +1,41 @@
 package com.project.hotel_management.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Table(name = "hotel")
+@Getter
+@Setter
 public class Hotel {
-    @Id
-    @Column(name = "hotel_id")
-    private long hotelID;
 
-    @Column(name = "hotel_name",unique = true)
-    private String hotelName;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long hotelId;
 
-    @Column(name = "location")
-    private String location;
+  @Column(nullable = false)
+  private String hotelName;
 
-    @Column(name = "multiplier")
-    private Double multiplier;
+  private String location;
 
+  @OneToMany(
+      mappedBy = "hotel",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY)
+  private List<FoodItem> foodItems = new ArrayList<>();
 
-    @Column(name = "item_ids")
-    private String itemIDs;
+  protected Hotel() {}
 
-    public Hotel(){}
+  public Hotel(String hotelName, String location) {
+    this.hotelName = hotelName;
+    this.location = location;
+  }
 
-    public Hotel(long hotelID, String hotelName, String location, Double multiplier, String itemIDs) {
-        this.hotelID = hotelID;
-        this.hotelName = hotelName;
-        this.location = location;
-        this.multiplier = multiplier;
-        this.itemIDs = itemIDs;
-    }
-
-    public long getHotelID() {
-        return hotelID;
-    }
-
-    public void setHotelID(long hotelID) {
-        this.hotelID = hotelID;
-    }
-
-    public String getHotelName() {
-        return hotelName;
-    }
-
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Double getMultiplier() {
-        return multiplier;
-    }
-
-    public void setMultiplier(Double multiplier) {
-        this.multiplier = multiplier;
-    }
-
-    public String getItemIDs() {
-        return itemIDs;
-    }
-
-    public void setItemIDs(String itemIDs) {
-        this.itemIDs = itemIDs;
-    }
-
+  public void addFoodItem(FoodItem foodItem) {
+    foodItems.add(foodItem);
+    foodItem.setHotel(this);
+  }
 }
