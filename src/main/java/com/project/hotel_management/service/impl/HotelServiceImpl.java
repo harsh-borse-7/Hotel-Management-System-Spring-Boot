@@ -60,11 +60,11 @@ public class HotelServiceImpl implements HotelService {
   }
 
   @Override
-  public void deleteHotel(Long hotel_id) {
-    if (hotelRepository.existsById(hotel_id)) {
-      hotelRepository.deleteById(hotel_id);
+  public void deleteHotel(Long hotelId) {
+    if (hotelRepository.existsById(hotelId)) {
+      hotelRepository.deleteById(hotelId);
     } else {
-      throw new ResourceNotFoundException("Hotel id " + hotel_id + " not found");
+      throw new ResourceNotFoundException("Hotel id " + hotelId + " not found");
     }
   }
 }

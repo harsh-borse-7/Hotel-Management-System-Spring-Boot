@@ -38,7 +38,7 @@ public class ItemsController {
     return ResponseEntity.ok(itemService.findByItemName(hotelId, name));
   }
 
-  @PutMapping("/{itemId}")
+  @PatchMapping("/{itemId}")
   public ResponseEntity<FoodItem> updateItem(
       @PathVariable Long hotelId, @PathVariable Long itemId, @RequestBody FoodItem itemDetails) {
     return ResponseEntity.ok(itemService.updateItem(hotelId, itemId, itemDetails));

@@ -31,19 +31,19 @@ public class HotelController {
   }
 
   @GetMapping("/by-name")
-  public ResponseEntity<Hotel> findByHotelName(@RequestParam String name) {
-    return ResponseEntity.ok(hotelService.findByHotelName(name));
+  public ResponseEntity<Hotel> findByHotelName(@RequestParam String hotelName) {
+    return ResponseEntity.ok(hotelService.findByHotelName(hotelName));
   }
 
-  @PutMapping("/{hotelId}")
+  @PatchMapping("/{hotelId}")
   public ResponseEntity<Hotel> updateHotel(
       @PathVariable Long hotelId, @RequestBody Hotel hotelDetails) {
     return ResponseEntity.ok(hotelService.updateHotel(hotelId, hotelDetails));
   }
 
-  @DeleteMapping("/{hotel_id}")
-  public ResponseEntity<Void> deleteHotel(@PathVariable Long hotel_id) {
-    hotelService.deleteHotel(hotel_id);
+  @DeleteMapping("/{hotelId}")
+  public ResponseEntity<Void> deleteHotel(@PathVariable Long hotelId) {
+    hotelService.deleteHotel(hotelId);
     return ResponseEntity.noContent().build();
   }
 }
