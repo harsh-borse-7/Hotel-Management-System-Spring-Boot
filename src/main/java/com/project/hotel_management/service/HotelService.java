@@ -1,19 +1,19 @@
 package com.project.hotel_management.service;
 
-import com.project.hotel_management.model.Hotel;
+import com.project.hotel_management.dto.HotelDto;
 import java.util.List;
 
 public interface HotelService {
 
-  Hotel addHotel(Hotel hotel);
+  HotelDto addHotel(HotelDto hotelDto);
 
-  List<Hotel> getHotels();
+  List<HotelDto> getHotels();
 
-  Hotel findByHotelID(long hotelId);
+  HotelDto findByHotelID(long hotelId);
 
-  Hotel findByHotelName(String hotelName);
+  HotelDto findByHotelName(String hotelName);
 
-  Hotel updateHotel(Long hotelName, Hotel hotel);
+  HotelDto updateHotel(Long hotelName, HotelDto hotel);
 
   void deleteHotel(Long hotelId);
 }

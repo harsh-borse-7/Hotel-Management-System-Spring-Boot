@@ -1,6 +1,6 @@
 package com.project.hotel_management.controller;
 
-import com.project.hotel_management.model.Hotel;
+import com.project.hotel_management.dto.HotelDto;
 import com.project.hotel_management.service.HotelService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,28 +16,28 @@ public class HotelController {
   private final HotelService hotelService;
 
   @PostMapping
-  public ResponseEntity<Hotel> addHotel(@RequestBody Hotel hotel) {
+  public ResponseEntity<HotelDto> addHotel(@RequestBody HotelDto hotel) {
     return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.addHotel(hotel));
   }
 
   @GetMapping
-  public ResponseEntity<List<Hotel>> getAllHotels() {
+  public ResponseEntity<List<HotelDto>> getAllHotels() {
     return ResponseEntity.ok(hotelService.getHotels());
   }
 
   @GetMapping("/{hotelId}")
-  public ResponseEntity<Hotel> findByID(@PathVariable Long hotelId) {
+  public ResponseEntity<HotelDto> findByID(@PathVariable Long hotelId) {
     return ResponseEntity.ok(hotelService.findByHotelID(hotelId));
   }
 
   @GetMapping("/by-name")
-  public ResponseEntity<Hotel> findByHotelName(@RequestParam String hotelName) {
+  public ResponseEntity<HotelDto> findByHotelName(@RequestParam String hotelName) {
     return ResponseEntity.ok(hotelService.findByHotelName(hotelName));
   }
 
   @PatchMapping("/{hotelId}")
-  public ResponseEntity<Hotel> updateHotel(
-      @PathVariable Long hotelId, @RequestBody Hotel hotelDetails) {
+  public ResponseEntity<HotelDto> updateHotel(
+      @PathVariable Long hotelId, @RequestBody HotelDto hotelDetails) {
     return ResponseEntity.ok(hotelService.updateHotel(hotelId, hotelDetails));
   }
 

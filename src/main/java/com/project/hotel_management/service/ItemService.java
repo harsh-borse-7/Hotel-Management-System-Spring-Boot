@@ -1,19 +1,19 @@
 package com.project.hotel_management.service;
 
-import com.project.hotel_management.model.FoodItem;
+import com.project.hotel_management.dto.FoodItemDto;
 import java.util.List;
 
 public interface ItemService {
 
-  FoodItem addItem(Long hotelId, FoodItem foodItem);
+  FoodItemDto addItemToHotel(Long hotelId, FoodItemDto foodItem);
 
-  List<FoodItem> getAllItems(Long hotelId);
+  List<FoodItemDto> getAllItemsByHotelId(Long hotelId);
 
-  FoodItem findByItemID(Long hotelId, Long itemID);
+  FoodItemDto findByItemID(Long hotelId, Long itemID);
 
-  FoodItem findByItemName(Long hotelId, String itemName);
+  FoodItemDto findByItemName(Long hotelId, String itemName);
 
-  FoodItem updateItem(Long hotelId, Long itemId, FoodItem foodItem);
+  FoodItemDto updateItem(Long hotelId, Long itemId, FoodItemDto foodItem);
 
   void deleteItem(Long hotelId, Long itemId);
 }
