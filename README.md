@@ -1,16 +1,16 @@
 # Hotel Management System - Spring Boot
 
-A Spring Boot-based Hotel Management System designed for managing hotels, their details, and associated foodItem items. This system allows you to handle hotel data, fetch related foodItem items, and calculate their prices based on hotel-specific multipliers.
+A Spring Boot-based Hotel Management System designed for managing hotels, their details, and associated foodItems. This system allows you to handle hotel data, fetch related foodItems.
 
 ## Features
-- **Hotel Management**: Manage hotel details, including hotel name, location, and a list of associated foodItem items.
+- **Hotel Management**: Manage hotel details, including hotel name, location, and a list of associated foodItem.
 - **FoodItem Management**: Store foodItem items with attributes like name, base price, and description.
 - **Error Handling**: Handle missing foodItem items gracefully and provide meaningful error messages or placeholder data.
 
 ## Tech Stack
 - **Java**: Programming language used for building the application.
 - **Spring Boot**: Framework for developing the backend of the hotel management system.
-- **MySQL**: Relational database for storing hotel and foodItem item data.
+- **MySQL**: Relational database for storing hotel and foodItem data.
 - **Maven/Gradle**: Dependency management tools for the project.
 - **Postman**: Tool for testing the APIs and validating responses.
 
@@ -33,8 +33,8 @@ Each hotel is represented by the following attributes:
 
 ### 2. **Menu Management**
 Menu items are stored as entities with the following attributes:
-- `itemID`: Unique identifier for the foodItem item.
-- `itemName`: Name of the foodItem item.
-- `description`: A description of the foodItem item.
+- `foodItemID`: Unique identifier for the foodItem.
+- `foodItemName`: Name of the foodItem.
+- `description`: A description of the foodItem.
 
 
