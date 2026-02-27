@@ -29,7 +29,35 @@ public class HotelServiceImpl implements HotelService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<HotelDto> getHotels() {
+  public List<HotelDto> getHotels(Long hotelId, String hotelName) {
+
+    if (hotelId != null) {
+      return Collections.singletonList(
+          hotelRepository
+              .findById(hotelId)
+              .map(
+                  hotel ->
+                      new HotelDto(
+                          hotel.getHotelId(),
+                          hotel.getHotelName(),
+                          hotel.getLocation(),
+                          mapFoodItems(hotel)))
+              .orElseThrow(
+                  () -> new ResourceNotFoundException("Hotel Id " + hotelId + " not found")));
+    } else if (hotelName != null) {
+      return Collections.singletonList(
+          hotelRepository
+              .findByHotelName(hotelName)
+              .map(
+                  hotel ->
+                      new HotelDto(
+                          hotel.getHotelId(),
+                          hotel.getHotelName(),
+                          hotel.getLocation(),
+                          mapFoodItems(hotel)))
+              .orElseThrow(
+                  () -> new ResourceNotFoundException("Hotel Name " + hotelName + " not found")));
+    }
 
     return hotelRepository.findAll().stream()
         .map(
@@ -40,29 +68,6 @@ public class HotelServiceImpl implements HotelService {
                     hotel.getLocation(),
                     mapFoodItems(hotel)))
         .toList();
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public HotelDto findByHotelID(long hotelId) {
-    Hotel hotel =
-        hotelRepository
-            .findById(hotelId)
-            .orElseThrow(() -> new ResourceNotFoundException("Hotel Id " + hotelId + " not found"));
-    return new HotelDto(
-        hotel.getHotelId(), hotel.getHotelName(), hotel.getLocation(), mapFoodItems(hotel));
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public HotelDto findByHotelName(String hotelName) {
-    Hotel hotel =
-        hotelRepository
-            .findByHotelName(hotelName)
-            .orElseThrow(
-                () -> new ResourceNotFoundException("Hotel name  " + hotelName + " not found"));
-    return new HotelDto(
-        hotel.getHotelId(), hotel.getHotelName(), hotel.getLocation(), mapFoodItems(hotel));
   }
 
   @Override
@@ -95,8 +100,8 @@ public class HotelServiceImpl implements HotelService {
         .map(
             food ->
                 new FoodItemDto(
-                    food.getItemId(),
-                    food.getItemName(),
+                    food.getFoodItemId(),
+                    food.getFoodItemName(),
                     food.getPrice(),
                     food.getDescription(),
                     hotel.getHotelId()))

@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class FoodItemDto {
-  private Long itemId;
-  private String itemName;
+  private Long foodItemId;
+  private String foodItemName;
   private Long price;
   private String description;
   private Long hotelId;

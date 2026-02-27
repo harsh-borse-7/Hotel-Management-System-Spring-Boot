@@ -12,10 +12,10 @@ public class FoodItem {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long itemId;
+  private Long FoodItemId;
 
   @Column(nullable = false)
-  private String itemName;
+  private String foodItemName;
 
   @Column(nullable = false)
   private Long price;
@@ -29,8 +29,8 @@ public class FoodItem {
 
   protected FoodItem() {}
 
-  public FoodItem(String itemName, Long price, String description, Hotel hotel) {
-    this.itemName = itemName;
+  public FoodItem(String foodItemName, Long price, String description, Hotel hotel) {
+    this.foodItemName = foodItemName;
     this.price = price;
     this.description = description;
     this.hotel = hotel;

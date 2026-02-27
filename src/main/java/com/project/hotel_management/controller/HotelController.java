@@ -21,18 +21,10 @@ public class HotelController {
   }
 
   @GetMapping
-  public ResponseEntity<List<HotelDto>> getAllHotels() {
-    return ResponseEntity.ok(hotelService.getHotels());
-  }
-
-  @GetMapping("/{hotelId}")
-  public ResponseEntity<HotelDto> findByID(@PathVariable Long hotelId) {
-    return ResponseEntity.ok(hotelService.findByHotelID(hotelId));
-  }
-
-  @GetMapping("/by-name")
-  public ResponseEntity<HotelDto> findByHotelName(@RequestParam String hotelName) {
-    return ResponseEntity.ok(hotelService.findByHotelName(hotelName));
+  public ResponseEntity<List<HotelDto>> getAllHotels(
+      @RequestParam(required = false) Long hotelId,
+      @RequestParam(required = false) String hotelName) {
+    return ResponseEntity.ok(hotelService.getHotels(hotelId, hotelName));
   }
 
   @PatchMapping("/{hotelId}")

@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ItemRepository extends JpaRepository<FoodItem, Long> {
+public interface FoodItemRepository extends JpaRepository<FoodItem, Long> {
   List<FoodItem> findByHotel_HotelId(Long hotelId);
 
-  Optional<FoodItem> findByItemIdAndHotel_HotelId(Long itemId, Long hotelId);
+  Optional<FoodItem> findByItemIdAndHotel_HotelId(Long foodItemId, Long hotelId);
 
-  Optional<FoodItem> findByItemNameAndHotel_HotelId(String itemName, Long hotel_hotelId);
+  Optional<FoodItem> findByItemNameAndHotel_HotelId(String foodItemName, Long hotel_hotelId);
 }

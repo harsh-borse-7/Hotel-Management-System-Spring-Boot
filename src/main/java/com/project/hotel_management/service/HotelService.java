@@ -7,11 +7,7 @@ public interface HotelService {
 
   HotelDto addHotel(HotelDto hotelDto);
 
-  List<HotelDto> getHotels();
-
-  HotelDto findByHotelID(long hotelId);
-
-  HotelDto findByHotelName(String hotelName);
+  List<HotelDto> getHotels(Long hotelId, String hotelName);
 
   HotelDto updateHotel(Long hotelName, HotelDto hotel);
 
